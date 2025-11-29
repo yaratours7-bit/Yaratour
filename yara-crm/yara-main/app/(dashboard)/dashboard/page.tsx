@@ -58,7 +58,14 @@ export default function DashboardPage() {
     },
   });
 
-  const { data: recentLeads } = useQuery({
+  interface RecentLead {
+    id: string;
+    name: string;
+    email?: string;
+    status?: string;
+  }
+
+  const { data: recentLeads } = useQuery<RecentLead[]>({
     queryKey: ['recent-leads'],
     queryFn: async () => {
       const { data } = await supabase
@@ -66,7 +73,7 @@ export default function DashboardPage() {
         .select('*')
         .order('created_at', { ascending: false })
         .limit(5);
-      return data;
+      return (data || []) as RecentLead[];
     },
   });
 
@@ -198,7 +205,7 @@ export default function DashboardPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recentLeads?.map((lead) => (
+                  {recentLeads?.map((lead: RecentLead) => (
                     <TableRow key={lead.id}>
                       <TableCell>{lead.name}</TableCell>
                       <TableCell>{lead.email}</TableCell>
