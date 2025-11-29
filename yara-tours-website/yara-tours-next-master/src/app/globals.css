@@ -1,0 +1,158 @@
+@import url('../../public/assets/css/bootstrap.min.css');
+@import url('../../public/assets/css/fontawesome.min.css');
+@import url('../../public/assets/css/magnific-popup.min.css');
+@import url('../../public/assets/css/swiper-bundle.min.css');
+@import url('../../public/assets/css/style.css');
+
+/* Custom CSS variables for the template */
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-montez: 'Montez', cursive;
+}
+
+/* Reset default Next.js styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-inter);
+  line-height: 1.6;
+}
+
+/* Ensure proper font loading */
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+.font-manrope {
+  font-family: var(--font-manrope);
+}
+
+.font-montez {
+  font-family: var(--font-montez);
+}
+
+/* Custom utility classes */
+.global-img img {
+  width: 100%;
+  height: auto;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* Mobile Menu Styles */
+
+
+.th-menu-wrapper.th-body-visible {
+  transform: translateX(0);
+}
+
+.th-menu-wrapper .th-menu-area {
+  padding: 60px 20px 20px 20px;
+}
+
+.th-menu-wrapper .th-menu-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.th-menu-wrapper .mobile-logo {
+  margin-bottom: 30px;
+}
+
+.th-mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.th-mobile-menu ul li {
+  margin-bottom: 15px;
+}
+
+.th-mobile-menu ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.th-mobile-menu ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.social-proof-popup {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: white;
+  color: #333;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 1000;
+  font-family: var(--font-manrope);
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInSlideUp 0.5s forwards;
+}
+
+@keyframes fadeInSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.social-proof-popup p {
+  margin: 0;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.gallery-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.tour-language {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+}
