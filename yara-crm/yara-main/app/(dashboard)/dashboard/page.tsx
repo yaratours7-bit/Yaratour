@@ -47,7 +47,7 @@ export default function DashboardPage() {
       const { data: accounts } = await supabase.from('accounts').select('id');
       const { data: payments } = await supabase.from('payments').select('amount').eq('status', 'received');
       
-      const revenue = payments?.reduce((acc, payment) => acc + payment.amount, 0) || 0;
+      const revenue = (payments || []).reduce((acc: number, payment: { amount: number }) => acc + payment.amount, 0);
 
       return {
         leads: leads?.length || 0,
