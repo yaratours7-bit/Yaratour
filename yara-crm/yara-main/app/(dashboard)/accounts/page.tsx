@@ -286,6 +286,11 @@ export default function AccountsPage() {
   };
 
   const handleDeleteAccount = (id: string) => {
+    // Guard against server-side or build-time execution where `window` is not defined.
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     if (window.confirm('Are you sure you want to delete this account?')) {
       deleteAccountMutation.mutate(id);
     }
