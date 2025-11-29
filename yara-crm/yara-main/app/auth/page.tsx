@@ -80,7 +80,37 @@ export default function AuthPage() {
         <Button onClick={isSigningIn ? handleSignIn : handleSignUp} className="w-full">
           {isSigningIn ? 'Sign In' : 'Sign Up'}
         </Button>
-        
+        <div className="text-center text-sm text-gray-600">
+          {isSigningIn ? (
+            <>
+              Don&apos;t have an account?{' '}
+              <button
+                type="button"
+                className="text-blue-600 underline"
+                onClick={() => {
+                  setError(null);
+                  setIsSigningIn(false);
+                }}
+              >
+                Sign Up
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{' '}
+              <button
+                type="button"
+                className="text-blue-600 underline"
+                onClick={() => {
+                  setError(null);
+                  setIsSigningIn(true);
+                }}
+              >
+                Sign In
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
