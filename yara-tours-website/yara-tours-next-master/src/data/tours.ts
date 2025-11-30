@@ -227,7 +227,7 @@ export const tours: Tour[] = [
     ],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour-1_4.jpg",
+      "/assets/img/tour/giraffe-wine-estates-villa.jpg",
       "/assets/img/tour/tour-1_5.jpg",
       "/assets/img/tour/tour-1_1.jpg",
     ],
@@ -251,7 +251,7 @@ export const tours: Tour[] = [
     ],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour-1_5.jpg",
+      "/assets/img/tour/interactive-safari-elephants.jpg",
       "/assets/img/tour/tour-1_1.jpg",
       "/assets/img/tour/tour-1_2.jpg",
       "/assets/img/tour/tour-1_3.jpg",

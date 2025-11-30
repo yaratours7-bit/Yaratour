@@ -1,11 +1,16 @@
 'use client';
-
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-
-const Destinations = () => {
-  const destinations = [
+|
+|import React from 'react';
+|import Link from 'next/link';
+|import Image from 'next/image';
+|import { tours } from '@/data/tours';
+|
+|const Destinations = () => {
+|  const gardenRouteImage =
+|    tours.find((tour) => tour.location === 'Garden Route')?.images[0] ??
+|    '/assets/img/destination/destination_1_5.jpg';
+|
+|  const destinations = [
     {
       id: 1,
       title: 'Hermanus',
@@ -42,7 +47,7 @@ const Destinations = () => {
       id: 5,
       title: 'Garden Route',
       subtitle: '2 Tours',
-      image: '/assets/img/destination/destination_1_5.jpg',
+      image: gardenRouteImage,
       link: '/tour',
       alt: 'A stunning view of the coastline along the Garden Route.',
     }
