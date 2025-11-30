@@ -56,31 +56,57 @@ const TourBooking: React.FC<TourBookingProps> = ({ tour }) => {
     setIsLoading(true);
 
     try {
-      // Send booking notification email to admin
-      const response = await fetch('/api/send-booking-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      // 1) Save lead into Supabase so it appears in the CRM (Leads Pool)
+      const numericBudget = Number(totalPrice || 0);
+
+      const { error: leadError } = await supabase.from('leads').insert([
+        {
           name,
           email,
           phone,
-          bookingDate,
-          numberOfPeople,
-          totalPrice,
-          tourTitle: tour.title,
-        }),
-      });
+          destination: tour.location || tour.title,
+          travel_dates: bookingDate,
+          num_travelers: numberOfPeople,
+          budget: numericBudget,
+          source: 'Website',
+          status: 'New',
+          country: '',
+        },
+      ]);
 
-      if (!response.ok) {
-        console.error('Failed to send booking email');
+      if (leadError) {
+        console.error('Failed to insert lead into Supabase:', leadError.message);
       }
-    } catch (error) {
-      console.error('Error sending booking email', error);
+
+      // 2) Best-effort: send booking notification email to admin
+      try {
+        const response = await fetch('/api/send-booking-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            bookingDate,
+            numberOfPeople,
+            totalPrice,
+            tourTitle: tour.title,
+          }),
+        });
+
+        if (!response.ok) {
+          console.error('Failed to send booking email');
+        }
+      } catch (emailError) {
+        console.error('Error sending booking email', emailError);
+      }
+    } catch (err) {
+      console.error('Unexpected error handling booking', err);
     }
 
-    // Supabase disabled for now; simulate a successful booking
+    // Keep the same UX for the user
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     addToast('Booking request sent successfully! We will contact you shortly.', 'success');

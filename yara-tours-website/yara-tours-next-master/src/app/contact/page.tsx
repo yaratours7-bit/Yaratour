@@ -50,7 +50,7 @@ export default function ContactPage() {
       <div 
         className="breadcumb-wrapper" 
         style={{
-          backgroundImage: 'url(/assets/img/bg/breadcumb_bg.jpg)',
+          backgroundImage: 'url(/assets/img/bg/breadcumb-bg.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}

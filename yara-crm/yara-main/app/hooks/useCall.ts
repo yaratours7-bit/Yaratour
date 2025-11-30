@@ -193,20 +193,24 @@ export const useCall = create<CallState>((set, get) => ({
   },
   initTwilio: async () => {
     try {
-      console.log('Fetching access token...');
+      console.log('Fetching Twilio access token...');
       const response = await fetch('/api/token');
-      
+
       if (!response.ok) {
-        throw new Error(`Token request failed: ${response.status} ${response.statusText}`);
+        console.warn('Twilio token request failed, disabling calling:', response.status, response.statusText);
+        set({ status: 'Twilio disabled' });
+        return;
       }
-      
+
       const data = await response.json();
-      console.log('Token response:', data);
-      
+      console.log('Twilio token response:', data);
+
       if (!data.token) {
-        throw new Error('No token received from server');
+        console.warn('No Twilio token received from server, disabling calling');
+        set({ status: 'Twilio disabled' });
+        return;
       }
-      
+
       console.log('Initializing Twilio device...');
       const device = initializeTwilio(data.token);
       set({ device, status: 'Connecting...' });
@@ -234,13 +238,13 @@ export const useCall = create<CallState>((set, get) => ({
       device.on('incoming', (call) => {
         console.log('Incoming call received in hook:', call);
         const incomingNumber = call.parameters?.From || 'Unknown';
-        set({ 
-          call, 
-          status: 'Incoming...', 
+        set({
+          call,
+          status: 'Incoming...',
           currentPhoneNumber: incomingNumber,
-          callStartTime: null 
+          callStartTime: null,
         });
-        
+
         // Set up call event listeners for incoming calls
         call.on('accept', () => {
           console.log('Incoming call accepted');
@@ -250,69 +254,71 @@ export const useCall = create<CallState>((set, get) => ({
         call.on('disconnect', () => {
           console.log('Incoming call disconnected');
           const { callStartTime, currentPhoneNumber } = get();
-          
+
           // Calculate duration and save call
-          const duration = callStartTime ? Math.floor((new Date().getTime() - callStartTime.getTime()) / 1000) : 0;
-          
+          const duration = callStartTime
+            ? Math.floor((new Date().getTime() - callStartTime.getTime()) / 1000)
+            : 0;
+
           if (currentPhoneNumber) {
             saveCallToDatabase({
               phone_number: currentPhoneNumber,
               direction: 'incoming',
               status: 'completed',
               duration,
-              call_sid: call.parameters?.CallSid || undefined
+              call_sid: call.parameters?.CallSid || undefined,
             });
           }
-          
-          set({ 
-            call: null, 
-            status: 'Ready', 
-            callStartTime: null, 
-            currentPhoneNumber: null 
+
+          set({
+            call: null,
+            status: 'Ready',
+            callStartTime: null,
+            currentPhoneNumber: null,
           });
         });
 
         call.on('cancel', () => {
           console.log('Incoming call canceled');
           const { currentPhoneNumber } = get();
-          
+
           if (currentPhoneNumber) {
             saveCallToDatabase({
               phone_number: currentPhoneNumber,
               direction: 'incoming',
               status: 'missed',
               duration: 0,
-              call_sid: call.parameters?.CallSid || undefined
+              call_sid: call.parameters?.CallSid || undefined,
             });
           }
-          
-          set({ 
-            call: null, 
-            status: 'Ready', 
-            callStartTime: null, 
-            currentPhoneNumber: null 
+
+          set({
+            call: null,
+            status: 'Ready',
+            callStartTime: null,
+            currentPhoneNumber: null,
           });
         });
 
         call.on('reject', () => {
           console.log('Incoming call rejected');
           const { currentPhoneNumber } = get();
-          
+
           if (currentPhoneNumber) {
             saveCallToDatabase({
               phone_number: currentPhoneNumber,
               direction: 'incoming',
               status: 'missed',
               duration: 0,
-              call_sid: call.parameters?.CallSid || undefined
+              call_sid: call.parameters?.CallSid || undefined,
             });
           }
-          
-          set({ 
-            call: null, 
-            status: 'Ready', 
-            callStartTime: null, 
-            currentPhoneNumber: null 
+
+          set({
+            call: null,
+            status: 'Ready',
+            callStartTime: null,
+            currentPhoneNumber: null,
           });
         });
 
@@ -320,22 +326,22 @@ export const useCall = create<CallState>((set, get) => ({
           console.error('Incoming Call Error:', error);
           toast.error(error.message);
           const { currentPhoneNumber } = get();
-          
+
           if (currentPhoneNumber) {
             saveCallToDatabase({
               phone_number: currentPhoneNumber,
               direction: 'incoming',
               status: 'failed',
               duration: 0,
-              call_sid: call.parameters?.CallSid || undefined
+              call_sid: call.parameters?.CallSid || undefined,
             });
           }
-          
-          set({ 
-            call: null, 
-            status: 'Error', 
-            callStartTime: null, 
-            currentPhoneNumber: null 
+
+          set({
+            call: null,
+            status: 'Error',
+            callStartTime: null,
+            currentPhoneNumber: null,
           });
         });
       });
@@ -346,8 +352,9 @@ export const useCall = create<CallState>((set, get) => ({
         set({ status: 'Error' });
       });
     } catch (error) {
-      console.error('Error initializing Twilio:', error);
-      toast.error('Failed to initialize Twilio');
+      console.error('Error initializing Twilio, disabling calling:', error);
+      // Do NOT spam the user with errors if Twilio isn't configured
+      set({ status: 'Twilio disabled' });
     }
   },
 }));
