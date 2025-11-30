@@ -1,16 +1,16 @@
 'use client';
-|
-|import React from 'react';
-|import Link from 'next/link';
-|import Image from 'next/image';
-|import { tours } from '@/data/tours';
-|
-|const Destinations = () => {
-|  const gardenRouteImage =
-|    tours.find((tour) => tour.location === 'Garden Route')?.images[0] ??
-|    '/assets/img/destination/destination_1_5.jpg';
-|
-|  const destinations = [
+
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { tours } from '@/data/tours';
+
+const Destinations = () => {
+  const gardenRouteImage =
+    tours.find((tour) => tour.location === 'Garden Route')?.images[0] ??
+    '/assets/img/destination/destination_1_5.jpg';
+
+  const destinations = [
     {
       id: 1,
       title: 'Hermanus',
@@ -50,7 +50,7 @@
       image: gardenRouteImage,
       link: '/tour',
       alt: 'A stunning view of the coastline along the Garden Route.',
-    }
+    },
   ];
 
   return (
@@ -60,10 +60,10 @@
           <span className="sub-title">Top Destination</span>
           <h2 className="sec-title">Popular Destination</h2>
         </div>
-        
-        <div 
-          className="swiper th-slider destination-slider slider-drag-wrap" 
-          id="aboutSlider1" 
+
+        <div
+          className="swiper th-slider destination-slider slider-drag-wrap"
+          id="aboutSlider1"
           data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"2"},"992":{"slidesPerView":"3"},"1200":{"slidesPerView":"3"}},"effect":"coverflow","coverflowEffect":{"rotate":"0","stretch":"95","depth":"212","modifier":"1"},"centeredSlides":"true"}'
         >
           <div className="swiper-wrapper">
@@ -71,8 +71,8 @@
               <div key={destination.id} className="swiper-slide">
                 <div className="destination-box gsap-cursor">
                   <div className="destination-img">
-                    <Image 
-                      src={destination.image} 
+                    <Image
+                      src={destination.image}
                       alt={destination.alt}
                       width={400}
                       height={300}
@@ -95,14 +95,14 @@
                 </div>
               </div>
             ))}
-            
+
             {/* Duplicate slides for infinite scroll */}
             {destinations.map((destination) => (
               <div key={`duplicate-${destination.id}`} className="swiper-slide">
                 <div className="destination-box gsap-cursor">
                   <div className="destination-img">
-                    <Image 
-                      src={destination.image} 
+                    <Image
+                      src={destination.image}
                       alt={destination.alt}
                       width={400}
                       height={300}
