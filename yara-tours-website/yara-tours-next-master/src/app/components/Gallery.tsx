@@ -3,29 +3,65 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { tours } from '@/data/tours';
+import { supabase } from '@/utils/supabase';
 
 const Gallery = () => {
   const [galleryImages, setGalleryImages] = useState<{ id: string; image: string; alt: string; }[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simplest, fully static approach: build gallery from existing tour images
-    const allImages: { id: string; image: string; alt: string; }[] = [];
+    // Build gallery from Instagram images via Supabase, falling back to tour images
+    const loadGallery = async () => {
+      const allImages: { id: string; image: string; alt: string; }[] = [];
 
-    for (const tour of tours.slice(0, 7)) {
-      if (tour.images && tour.images.length > 0) {
-        const imageUrl = tour.images[0];
-        const altText = `A gallery image of the ${tour.title} tour.`;
-        allImages.push({
-          id: `${tour.id}-0`,
-          image: imageUrl,
-          alt: altText,
-        });
+      try {
+        const { data } = await supabase.storage
+          .from('website')
+          .list('instagram', {
+            limit: 12,
+            offset: 0,
+            sortBy: { column: 'created_at', order: 'desc' },
+          });
+
+        if (data && data.length > 0) {
+          for (const file of data) {
+            const { data: imageUrl } = supabase.storage
+              .from('website')
+              .getPublicUrl(`instagram/${file.name}`);
+
+            if (imageUrl?.publicUrl) {
+              allImages.push({
+                id: `instagram-${file.name}`,
+                image: imageUrl.publicUrl,
+                alt: `Instagram image ${file.name}`,
+              });
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Error loading Instagram images for home gallery', err);
       }
-    }
 
-    setGalleryImages(allImages);
-    setLoading(false);
+      // Fallback: if no Instagram images, use first image from first 7 tours
+      if (allImages.length === 0) {
+        for (const tour of tours.slice(0, 7)) {
+          if (tour.images && tour.images.length > 0) {
+            const imageUrl = tour.images[0];
+            const altText = `A gallery image of the ${tour.title} tour.`;
+            allImages.push({
+              id: `${tour.id}-0`,
+              image: imageUrl,
+              alt: altText,
+            });
+          }
+        }
+      }
+
+      setGalleryImages(allImages);
+      setLoading(false);
+    };
+
+    loadGallery();
   }, []);
 
   if (loading) {
