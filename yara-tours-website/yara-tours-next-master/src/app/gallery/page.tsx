@@ -15,7 +15,7 @@ const Breadcrumb = () => {
     <div 
       className="breadcumb-wrapper" 
       style={{
-        backgroundImage: 'url(https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//header-img.png)',
+        backgroundImage: 'url(/assets/img/bg/breadcumb_bg.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
@@ -39,7 +39,7 @@ const VideoSection = () => {
     <section 
       className="video-area space" 
       style={{
-        backgroundImage: 'url(https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website/Gallery/cape-peninsula-tour/20250712_173128.jpg)',
+        backgroundImage: 'url(/assets/img/bg/video_bg_1.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}

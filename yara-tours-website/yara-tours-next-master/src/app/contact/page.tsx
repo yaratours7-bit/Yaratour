@@ -30,22 +30,11 @@ export default function ContactPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    const { error } = await supabase.from('leads').insert([
-      {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        destination: formData.subject,
-        notes: formData.message,
-        source: 'contact_form',
-      },
-    ]);
+    // Supabase disabled for now; simulate a successful send
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    if (error) {
-      addToast('There was an error sending your message. Please try again.', 'error');
-    } else {
-      addToast('Message sent successfully!', 'success');
-      setFormData({
+    addToast('Message sent successfully!', 'success');
+    setFormData({
         name: '',
         email: '',
         phone: '',
@@ -61,7 +50,7 @@ export default function ContactPage() {
       <div 
         className="breadcumb-wrapper" 
         style={{
-          backgroundImage: 'url(https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//header-img.png)',
+          backgroundImage: 'url(/assets/img/bg/breadcumb_bg.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}

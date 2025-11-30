@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { supabase } from '@/utils/supabase';
 import { tours } from '@/data/tours';
 
 const Gallery = () => {
@@ -10,39 +9,23 @@ const Gallery = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchImages = async () => {
-      setLoading(true);
-      const allImages: { id: string; image: string; alt: string; }[] = [];
-      for (const tour of tours.slice(0, 7)) { // Fetch from first 7 tours
-        const { data } = await supabase.storage
-          .from('website')
-          .list(`Gallery/${tour.id}`, {
-            limit: 1, // Fetch only one image per tour
-            offset: 0,
-            sortBy: { column: 'name', order: 'asc' },
-          });
+    // Simplest, fully static approach: build gallery from existing tour images
+    const allImages: { id: string; image: string; alt: string; }[] = [];
 
-        if (data && data.length > 0) {
-          const file = data[0];
-          const { data: imageUrl } = supabase.storage
-            .from('website')
-            .getPublicUrl(`Gallery/${tour.id}/${file.name}`);
-          
-          if (imageUrl && imageUrl.publicUrl) {
-            const altText = `A gallery image of the ${tour.title} tour, showing ${file.name.split('.')[0].replace(/_/g, ' ')}.`;
-            allImages.push({
-              id: `${tour.id}-${file.name}`,
-              image: imageUrl.publicUrl,
-              alt: altText,
-            });
-          }
-        }
+    for (const tour of tours.slice(0, 7)) {
+      if (tour.images && tour.images.length > 0) {
+        const imageUrl = tour.images[0];
+        const altText = `A gallery image of the ${tour.title} tour.`;
+        allImages.push({
+          id: `${tour.id}-0`,
+          image: imageUrl,
+          alt: altText,
+        });
       }
-      setGalleryImages(allImages);
-      setLoading(false);
-    };
+    }
 
-    fetchImages();
+    setGalleryImages(allImages);
+    setLoading(false);
   }, []);
 
   if (loading) {
@@ -60,97 +43,111 @@ const Gallery = () => {
         <div className="row gy-10 gx-10 justify-content-center align-items-center">
           {galleryImages.length > 0 && (
             <>
-              <div className="col-md-6 col-lg-2">
-                <div className="gallery-card">
-                  <div className="box-img global-img">
-                    <Image 
-                      src={galleryImages[0].image} 
-                      alt={galleryImages[0].alt}
-                      width={200}
-                      height={250}
-                      style={{ objectFit: 'cover' }}
-                    />
+              {galleryImages[0] && (
+                <div className="col-md-6 col-lg-2">
+                  <div className="gallery-card">
+                    <div className="box-img global-img">
+                      <Image 
+                        src={galleryImages[0].image} 
+                        alt={galleryImages[0].alt}
+                        width={200}
+                        height={250}
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               
-              <div className="col-md-6 col-lg-2">
-                <div className="gallery-card">
-                  <div className="box-img global-img">
-                    <Image 
-                      src={galleryImages[1].image} 
-                      alt={galleryImages[1].alt}
-                      width={200}
-                      height={120}
-                      style={{ objectFit: 'cover' }}
-                    />
+              {galleryImages[1] && (
+                <div className="col-md-6 col-lg-2">
+                  <div className="gallery-card">
+                    <div className="box-img global-img">
+                      <Image 
+                        src={galleryImages[1].image} 
+                        alt={galleryImages[1].alt}
+                        width={200}
+                        height={120}
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                   </div>
+                  {galleryImages[2] && (
+                    <div className="gallery-card">
+                      <div className="box-img global-img">
+                        <Image 
+                          src={galleryImages[2].image} 
+                          alt={galleryImages[2].alt}
+                          width={200}
+                          height={120}
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="gallery-card">
-                  <div className="box-img global-img">
-                    <Image 
-                      src={galleryImages[2].image} 
-                      alt={galleryImages[2].alt}
-                      width={200}
-                      height={120}
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                </div>
-              </div>
+              )}
               
-              <div className="col-md-6 col-lg-2">
-                <div className="gallery-card">
-                  <div className="box-img global-img">
-                    <Image 
-                      src={galleryImages[3].image} 
-                      alt={galleryImages[3].alt}
-                      width={200}
-                      height={250}
-                      style={{ objectFit: 'cover' }}
-                    />
+              {galleryImages[3] && (
+                <div className="col-md-6 col-lg-2">
+                  <div className="gallery-card">
+                    <div className="box-img global-img">
+                      <Image 
+                        src={galleryImages[3].image} 
+                        alt={galleryImages[3].alt}
+                        width={200}
+                        height={250}
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               
-              <div className="col-md-6 col-lg-2">
-                <div className="gallery-card">
-                  <div className="box-img global-img">
-                    <Image 
-                      src={galleryImages[4].image} 
-                      alt={galleryImages[4].alt}
-                      width={200}
-                      height={120}
-                      style={{ objectFit: 'cover' }}
-                    />
+              {galleryImages[4] && (
+                <div className="col-md-6 col-lg-2">
+                  <div className="gallery-card">
+                    <div className="box-img global-img">
+                      <Image 
+                        src={galleryImages[4].image} 
+                        alt={galleryImages[4].alt}
+                        width={200}
+                        height={120}
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                   </div>
+                  {galleryImages[5] && (
+                    <div className="gallery-card">
+                      <div className="box-img global-img">
+                        <Image 
+                          src={galleryImages[5].image} 
+                          alt={galleryImages[5].alt}
+                          width={200}
+                          height={120}
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="gallery-card">
-                  <div className="box-img global-img">
-                    <Image 
-                      src={galleryImages[5].image} 
-                      alt={galleryImages[5].alt}
-                      width={200}
-                      height={120}
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                </div>
-              </div>
+              )}
               
-              <div className="col-md-6 col-lg-2">
-                <div className="gallery-card">
-                  <div className="box-img global-img">
-                    <Image 
-                      src={galleryImages[6].image} 
-                      alt={galleryImages[6].alt}
-                      width={200}
-                      height={250}
-                      style={{ objectFit: 'cover' }}
-                    />
+              {galleryImages[6] && (
+                <div className="col-md-6 col-lg-2">
+                  <div className="gallery-card">
+                    <div className="box-img global-img">
+                      <Image 
+                        src={galleryImages[6].image} 
+                        alt={galleryImages[6].alt}
+                        width={200}
+                        height={250}
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </>
           )}
         </div>

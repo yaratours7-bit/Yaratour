@@ -19,14 +19,12 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: "Yara Tours & Travel | Portuguese South African Tours & Adventures",
-  description: "Discover breathtaking destinations with Yara Tours & Travel. We offer curated tour packages in Portuguese, personalized travel planning, and expert guides to make your adventure unforgettable. Book your dream vacation today!",
-  keywords: "Portuguese South African tours, tours in South Africa for Portuguese speakers, Portuguese-speaking tours Cape Town, Garden Route tours Portuguese, safari South Africa Portuguese",
-  authors: [{ name: "Yara Tours & Travel" }],
-  robots: "INDEX,FOLLOW",
-  viewport: "width=device-width,initial-scale=1,shrink-to-fit=no",
+  description:
+    "Discover breathtaking destinations with Yara Tours & Travel. We offer curated tour packages in Portuguese, personalized travel planning, and expert guides to make your adventure unforgettable. Book your dream vacation today!",
   openGraph: {
     title: "Yara Tours & Travel | Portuguese South African Tours & Adventures",
-    description: "Discover breathtaking destinations with Yara Tours & Travel. We offer curated tour packages in Portuguese, personalized travel planning, and expert guides to make your adventure unforgettable. Book your dream vacation today!",
+    description:
+      "Discover breathtaking destinations with Yara Tours & Travel. We offer curated tour packages in Portuguese, personalized travel planning, and expert guides to make your adventure unforgettable. Book your dream vacation today!",
     url: "https://yaratoursntravel.com/",
     siteName: "Yara Tours & Travel",
     images: [
@@ -43,7 +41,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Yara Tours & Travel | Portuguese South African Tours & Adventures",
-    description: "Discover breathtaking destinations with Yara Tours & Travel. We offer curated tour packages in Portuguese, personalized travel planning, and expert guides to make your adventure unforgettable. Book your dream vacation today!",
+    description:
+      "Discover breathtaking destinations with Yara Tours & Travel. We offer curated tour packages in Portuguese, personalized travel planning, and expert guides to make your adventure unforgettable. Book your dream vacation today!",
     images: ["https://yaratoursntravel.com/assets/img/YaraTours&Travel-logo.png"],
   },
   icons: {
@@ -73,10 +72,6 @@ export const metadata: Metadata = {
   },
   manifest: "/assets/img/favicons/manifest.json",
   themeColor: "#ffffff",
-  other: {
-    "msapplication-TileColor": "#ffffff",
-    "msapplication-TileImage": "/assets/img/favicons/ms-icon-144x144.png",
-  },
 };
 
 export default function RootLayout({

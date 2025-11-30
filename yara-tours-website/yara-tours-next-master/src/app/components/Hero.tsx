@@ -17,10 +17,10 @@ const Hero = () => {
             <div className="hero-inner">
               
               <Image
-                src="https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/hero/20250712_115439.webp"
+                src="/assets/img/hero/hero_bg_1_1.jpg"
                 alt="African landscape at sunset"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
                 quality={100}
                 className="th-hero-bg"
               />
@@ -62,10 +62,10 @@ const Hero = () => {
             <div className="hero-inner">
               
               <Image
-                src="https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/hero/20250702_162100.jpg"
+                src="/assets/img/hero/hero_bg_1_2.jpg"
                 alt="Wildebeest migration in the Serengeti"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
                 quality={100}
                 className="th-hero-bg"
               />
@@ -107,10 +107,10 @@ const Hero = () => {
             <div className="hero-inner">
               
               <Image
-                src="https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website/cape-town.jpg"
+                src="/assets/img/hero/hero_bg_1_3.jpg"
                 alt="Aerial view of Cape Town with Table Mountain"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
                 quality={100}
                 className="th-hero-bg"
               />

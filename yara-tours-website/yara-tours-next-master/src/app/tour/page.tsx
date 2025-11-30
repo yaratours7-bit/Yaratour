@@ -13,7 +13,7 @@ const Breadcrumb = () => {
     <div 
       className="breadcumb-wrapper" 
       style={{
-        backgroundImage: 'url(https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//header-img.png)',
+        backgroundImage: 'url(/assets/img/bg/breadcumb_bg.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
@@ -183,7 +183,7 @@ const TourGrid = () => {
                   <div className="recent-post">
                     <div className="media-img">
                       <Link href="/tour/whale-watching-tour-in-hermanus">
-                        <Image src="https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//whales.jpg" alt="Tour" width={100} height={100} />
+                        <Image src="/assets/img/tour/tour_1_1.jpg" alt="Tour" width={100} height={100} />
                       </Link>
                     </div>
                     <div className="media-body">
@@ -200,7 +200,7 @@ const TourGrid = () => {
                   <div className="recent-post">
                     <div className="media-img">
                       <Link href="/tour/cape-town-city-tour">
-                        <Image src="https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//city-tour.jpg" alt="Tour" width={100} height={100} />
+                        <Image src="/assets/img/tour/tour_1_2.jpg" alt="Tour" width={100} height={100} />
                       </Link>
                     </div>
                     <div className="media-body">
@@ -217,7 +217,7 @@ const TourGrid = () => {
                   <div className="recent-post">
                     <div className="media-img">
                       <Link href="/tour/wine-tasting-in-constantia">
-                        <Image src="https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//wine-tasting-in-constantia-region-cape-town.webp" alt="Tour" width={100} height={100} />
+                        <Image src="/assets/img/tour/tour_1_3.jpg" alt="Tour" width={100} height={100} />
                       </Link>
                     </div>
                     <div className="media-body">

@@ -17,7 +17,7 @@ const Breadcrumb = () => {
     <div 
       className="breadcumb-wrapper" 
       style={{
-        backgroundImage: 'url(https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//header-img.png)',
+        backgroundImage: 'url(/assets/img/bg/breadcumb_bg.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
@@ -96,7 +96,7 @@ const BestTours = () => {
       className="history-area space" 
       style={{
         position: 'relative',
-        backgroundImage: 'url(https://rigiltfebwoidcahgjqd.supabase.co/storage/v1/object/public/website//db.jpg)',
+        backgroundImage: 'url(/assets/img/bg/history_bg_1.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: '30px',
