@@ -35,13 +35,13 @@ export default function ContactPage() {
 
     addToast('Message sent successfully!', 'success');
     setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-      });
-    }
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: '',
+    });
+
     setIsLoading(false);
   };
 
