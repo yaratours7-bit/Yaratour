@@ -117,6 +117,8 @@ export default function LeadsPage() {
   const [page, setPage] = useState(0);
   const [sourceFilter, setSourceFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [availableSources, setAvailableSources] = useState<string[]>([]);
+  const [availableStages, setAvailableStages] = useState<string[]>([]);
   const searchParams = useSearchParams();
 
   // State for tabs
@@ -148,6 +150,28 @@ export default function LeadsPage() {
 
   const leads = data?.leads;
   const count = data?.count;
+
+  // Derive distinct sources and stages from the loaded page of leads
+  useEffect(() => {
+    if (leads && leads.length > 0) {
+      const sources = Array.from(
+        new Set(
+          leads
+            .map((l: Lead) => l.source)
+            .filter((s): s is string => !!s)
+        )
+      );
+      const stages = Array.from(
+        new Set(
+          leads
+            .map((l: Lead) => l.stage)
+            .filter((s): s is string => !!s)
+        )
+      );
+      setAvailableSources(sources);
+      setAvailableStages(stages);
+    }
+  }, [leads]);
 
   const { data: notes } = useQuery({
     queryKey: ['notes', editingLead?.id],
@@ -443,28 +467,25 @@ export default function LeadsPage() {
         <h1 className="text-3xl font-bold">Leads</h1>
         <div className="flex items-center gap-2">
           <Select value={sourceFilter} onValueChange={setSourceFilter}>
-            <SelectTrigger className="w-[180px] bg-white">
+            <SelectTrigger className="w-[200px] bg-white">
               <SelectValue placeholder="Filter by source" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Sources</SelectItem>
-              <SelectItem value="Facebook">Facebook</SelectItem>
-              <SelectItem value="Instagram">Instagram</SelectItem>
-              <SelectItem value="Google">Google</SelectItem>
-              <SelectItem value="Website">Website</SelectItem>
+              {availableSources.map((s) => (
+                <SelectItem key={s} value={s}>{s}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px] bg-white">
-              <SelectValue placeholder="Filter by status" />
+            <SelectTrigger className="w-[200px] bg-white">
+              <SelectValue placeholder="Filter by stage" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="New">New</SelectItem>
-              <SelectItem value="Contacted">Contacted</SelectItem>
-              <SelectItem value="Quoted">Quoted</SelectItem>
-              <SelectItem value="Booked">Booked</SelectItem>
-              <SelectItem value="Lost">Lost</SelectItem>
+              <SelectItem value="all">All Stages</SelectItem>
+              {availableStages.map((s) => (
+                <SelectItem key={s} value={s}>{s}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Input type="file" accept=".csv" onChange={handleCsvUpload} className="w-auto" />
