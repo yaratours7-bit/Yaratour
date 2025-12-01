@@ -6,34 +6,14 @@ import Image from 'next/image';
 import { tours } from '@/data/tours';
 
 const Destinations = () => {
-  // Derive destination images from the actual tours so the picture
-  // always matches the destination heading.
-  const hermanusImage =
-    tours.find((tour) => tour.id === 'whale-watching-hermanus')?.images[0] ??
-    '/assets/img/destination/destination_1_1.jpg';
-
-  const constantiaImage =
-    tours.find((tour) => tour.id === 'wine-tasting-constantia')?.images[0] ??
-    '/assets/img/destination/destination_1_2.jpg';
-
-  const stellenboschImage =
-    tours.find((tour) => tour.id === 'stellenbosch-winelands')?.images[0] ??
-    '/assets/img/destination/destination_1_3.jpg';
-
-  const capePointImage =
-    tours.find((tour) => tour.id === 'cape-peninsula-tour')?.images[0] ??
-    '/assets/img/destination/destination_1_4.jpg';
-
-  const gardenRouteImage =
-    tours.find((tour) => tour.location === 'Garden Route')?.images[0] ??
-    '/assets/img/destination/destination_1_5.jpg';
-
+  // Use dedicated destination images under /public/assets/img/destination.
+  // You can replace these files with any photos you like for each place.
   const destinations = [
     {
       id: 1,
       title: 'Hermanus',
       subtitle: '1 Tour',
-      image: hermanusImage,
+      image: '/assets/img/destination/hermanus.jpg',
       link: '/tour',
       alt: 'A beautiful view of the coastal town of Hermanus, known for whale watching.',
     },
@@ -41,7 +21,7 @@ const Destinations = () => {
       id: 2,
       title: 'Constantia',
       subtitle: '1 Tour',
-      image: constantiaImage,
+      image: '/assets/img/destination/constantia.jpg',
       link: '/tour',
       alt: 'A lush green vineyard in the Constantia wine region.',
     },
@@ -49,7 +29,7 @@ const Destinations = () => {
       id: 3,
       title: 'Stellenbosch',
       subtitle: '1 Tour',
-      image: stellenboschImage,
+      image: '/assets/img/destination/stellenbosch.jpg',
       link: '/tour',
       alt: 'A charming street with Cape Dutch architecture in Stellenbosch.',
     },
@@ -57,7 +37,7 @@ const Destinations = () => {
       id: 4,
       title: 'Cape Point',
       subtitle: '1 Tour',
-      image: capePointImage,
+      image: '/assets/img/destination/cape-point.jpg',
       link: '/tour',
       alt: 'The dramatic cliffs and lighthouse at Cape Point.',
     },
@@ -65,7 +45,7 @@ const Destinations = () => {
       id: 5,
       title: 'Garden Route',
       subtitle: '2 Tours',
-      image: gardenRouteImage,
+      image: '/assets/img/destination/garden-route.jpg',
       link: '/tour',
       alt: 'A stunning view of the coastline along the Garden Route.',
     },
