@@ -6,6 +6,24 @@ import Image from 'next/image';
 import { tours } from '@/data/tours';
 
 const Destinations = () => {
+  // Derive destination images from the actual tours so the picture
+  // always matches the destination heading.
+  const hermanusImage =
+    tours.find((tour) => tour.id === 'whale-watching-hermanus')?.images[0] ??
+    '/assets/img/destination/destination_1_1.jpg';
+
+  const constantiaImage =
+    tours.find((tour) => tour.id === 'wine-tasting-constantia')?.images[0] ??
+    '/assets/img/destination/destination_1_2.jpg';
+
+  const stellenboschImage =
+    tours.find((tour) => tour.id === 'stellenbosch-winelands')?.images[0] ??
+    '/assets/img/destination/destination_1_3.jpg';
+
+  const capePointImage =
+    tours.find((tour) => tour.id === 'cape-peninsula-tour')?.images[0] ??
+    '/assets/img/destination/destination_1_4.jpg';
+
   const gardenRouteImage =
     tours.find((tour) => tour.location === 'Garden Route')?.images[0] ??
     '/assets/img/destination/destination_1_5.jpg';
@@ -15,7 +33,7 @@ const Destinations = () => {
       id: 1,
       title: 'Hermanus',
       subtitle: '1 Tour',
-      image: '/assets/img/destination/destination_1_1.jpg',
+      image: hermanusImage,
       link: '/tour',
       alt: 'A beautiful view of the coastal town of Hermanus, known for whale watching.',
     },
@@ -23,7 +41,7 @@ const Destinations = () => {
       id: 2,
       title: 'Constantia',
       subtitle: '1 Tour',
-      image: '/assets/img/destination/destination_1_2.jpg',
+      image: constantiaImage,
       link: '/tour',
       alt: 'A lush green vineyard in the Constantia wine region.',
     },
@@ -31,7 +49,7 @@ const Destinations = () => {
       id: 3,
       title: 'Stellenbosch',
       subtitle: '1 Tour',
-      image: '/assets/img/destination/destination_1_3.jpg',
+      image: stellenboschImage,
       link: '/tour',
       alt: 'A charming street with Cape Dutch architecture in Stellenbosch.',
     },
@@ -39,7 +57,7 @@ const Destinations = () => {
       id: 4,
       title: 'Cape Point',
       subtitle: '1 Tour',
-      image: '/assets/img/destination/destination_1_4.jpg',
+      image: capePointImage,
       link: '/tour',
       alt: 'The dramatic cliffs and lighthouse at Cape Point.',
     },
