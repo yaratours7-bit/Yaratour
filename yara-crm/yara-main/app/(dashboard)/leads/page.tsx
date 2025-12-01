@@ -622,7 +622,7 @@ export default function LeadsPage() {
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="status-edit" className="text-right">Stage</Label>
-                    <Select value={editingLead?.status} onValueChange={(value) => setEditingLead(prev => prev ? { ...prev, status: value } : null)}>
+                    <Select value={editingLead?.stage ?? 'New'} onValueChange={(value) => setEditingLead(prev => prev ? { ...prev, stage: value } : null)}>
                       <SelectTrigger className="col-span-3"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="New">New</SelectItem>
