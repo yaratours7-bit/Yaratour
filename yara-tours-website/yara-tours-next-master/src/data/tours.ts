@@ -59,7 +59,7 @@ export const tours: Tour[] = [
     ],
     notIncluded: ["Lunch (guests can choose from various restaurants at the Waterfront or Camps Bay)"],
     images: [
-      "/assets/img/tour/tour_1_1.jpg",
+      "/assets/img/destination/cape town city.jpg",
       "/assets/img/tour/tour_1_2.jpg",
       "/assets/img/tour/tour_1_3.jpg",
     ],
@@ -177,7 +177,7 @@ export const tours: Tour[] = [
     included: [],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour_10_1.jpg",
+      "/assets/img/destination/agulhas.jpg",
       "/assets/img/tour/tour_10_2.jpg",
       "/assets/img/tour/tour_10_3.jpg",
     ],
