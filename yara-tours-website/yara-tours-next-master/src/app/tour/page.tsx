@@ -73,6 +73,12 @@ const TourGrid = () => {
     ));
   };
 
+  const popularTours = [
+    allTours.find((tour) => tour.id === 'whale-watching-hermanus'),
+    allTours.find((tour) => tour.id === 'cape-town-city-tour'),
+    allTours.find((tour) => tour.id === 'wine-tasting-constantia'),
+  ].filter((tour): tour is typeof allTours[number] => tour !== undefined);
+
   return (
     <section className="tour-area space">
       <div className="container">
@@ -180,56 +186,30 @@ const TourGrid = () => {
               <div className="widget widget_recent_entries">
                 <h3 className="widget_title">Popular Tours</h3>
                 <div className="recent-post-wrap">
-                  <div className="recent-post">
-                    <div className="media-img">
-                      <Link href="/tour/whale-watching-tour-in-hermanus">
-                        <Image src="/assets/img/tour/tour_1_1.jpg" alt="Tour" width={100} height={100} />
-                      </Link>
-                    </div>
-                    <div className="media-body">
-                      <h4 className="post-title">
-                        <Link href="/tour/whale-watching-tour-in-hermanus">Whale Watching in Hermanus</Link>
-                      </h4>
-                      <div className="recent-post-meta">
-                        <span className="price">R3500</span>
-                        <span className="rating">★ 5.0</span>
+                  {popularTours.map((tour) => (
+                    <div key={tour.id} className="recent-post">
+                      <div className="media-img">
+                        <Link href={`/tour/${tour.id}`}>
+                          <Image
+                            src={tour.images[0]}
+                            alt={tour.title}
+                            width={100}
+                            height={100}
+                            style={{ objectFit: 'cover' }}
+                          />
+                        </Link>
+                      </div>
+                      <div className="media-body">
+                        <h4 className="post-title">
+                          <Link href={`/tour/${tour.id}`}>{tour.title}</Link>
+                        </h4>
+                        <div className="recent-post-meta">
+                          <span className="price">{tour.price}</span>
+                          <span className="rating">★ {tour.rating.toFixed(1)}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="recent-post">
-                    <div className="media-img">
-                      <Link href="/tour/cape-town-city-tour">
-                        <Image src="/assets/img/tour/tour_1_2.jpg" alt="Tour" width={100} height={100} />
-                      </Link>
-                    </div>
-                    <div className="media-body">
-                      <h4 className="post-title">
-                        <Link href="/tour/cape-town-city-tour">Cape Town City Tour</Link>
-                      </h4>
-                      <div className="recent-post-meta">
-                        <span className="price">R1900</span>
-                        <span className="rating">★ 5.0</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="recent-post">
-                    <div className="media-img">
-                      <Link href="/tour/wine-tasting-in-constantia">
-                        <Image src="/assets/img/tour/tour_1_3.jpg" alt="Tour" width={100} height={100} />
-                      </Link>
-                    </div>
-                    <div className="media-body">
-                      <h4 className="post-title">
-                        <Link href="/tour/wine-tasting-in-constantia">Wine Tasting in Constantia</Link>
-                      </h4>
-                      <div className="recent-post-meta">
-                        <span className="price">R1900</span>
-                        <span className="rating">★ 5.0</span>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </aside>

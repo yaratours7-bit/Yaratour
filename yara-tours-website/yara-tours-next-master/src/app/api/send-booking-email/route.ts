@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { supabase } from '@/utils/supabase';
 
 export async function POST(request: Request) {
   try {
@@ -64,6 +65,51 @@ export async function POST(request: Request) {
       text,
       html,
     });
+
+    // Also create a lead entry in the shared Supabase CRM database.
+    // This lets the CRM pick up website bookings automatically.
+    try {
+      const { data: leadRows, error: leadError } = await supabase
+        .from('leads')
+        .insert([
+          {
+            name,
+            email,
+            phone,
+            destination: tourTitle ?? '',
+            travel_dates: bookingDate ?? '',
+            num_travelers: Number(numberOfPeople) || 0,
+            budget: Number(totalPrice) || 0,
+            source: 'Website',
+            status: 'New',
+            country: '',
+          },
+        ])
+        .select('id');
+
+      if (leadError) {
+        console.error('Failed to create CRM lead from booking', leadError);
+      } else if (leadRows && leadRows[0]?.id) {
+        // Also create a row in a dedicated bookings table, linked to the lead.
+        const { error: bookingError } = await supabase.from('bookings').insert([
+          {
+            lead_id: leadRows[0].id,
+            tour_title: tourTitle ?? '',
+            booking_date: bookingDate ?? '',
+            num_people: Number(numberOfPeople) || 0,
+            total_price: Number(totalPrice) || 0,
+            source: 'Website',
+            status: 'pending',
+          },
+        ]);
+
+        if (bookingError) {
+          console.error('Failed to create booking record', bookingError);
+        }
+      }
+    } catch (leadInsertError) {
+      console.error('Unexpected error creating CRM lead/booking from website', leadInsertError);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
