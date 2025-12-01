@@ -49,6 +49,7 @@ const GalleryGrid = () => {
           if (tourImages.length > 0) {
             allImages.push(...tourImages);
           }
+        }
       }
 
       // Fallback: if there are no Supabase gallery images, use static destination photos
