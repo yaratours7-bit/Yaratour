@@ -49,8 +49,30 @@ const GalleryGrid = () => {
           if (tourImages.length > 0) {
             allImages.push(...tourImages);
           }
+      }
+
+      // Fallback: if there are no Supabase gallery images, use static destination photos
+      if (allImages.length === 0) {
+        const staticDestinations = [
+          { id: 'hermanus', image: '/assets/img/destination/hermanus.jpg', category: 'Hermanus', title: 'Hermanus' },
+          { id: 'cape-town-city', image: '/assets/img/destination/cape town city.jpg', category: 'Cape Town', title: 'Cape Town City' },
+          { id: 'constantia', image: '/assets/img/destination/constantia.jpg', category: 'Constantia', title: 'Constantia' },
+          { id: 'stellenbosch', image: '/assets/img/destination/stellenbosch.jpg', category: 'Stellenbosch', title: 'Stellenbosch' },
+          { id: 'cape-point', image: '/assets/img/destination/cape point.jpg', category: 'Cape Peninsula', title: 'Cape Peninsula' },
+          { id: 'garden-route', image: '/assets/img/destination/garden-route.jpg', category: 'Garden Route', title: 'Garden Route' },
+        ];
+
+        for (const dest of staticDestinations) {
+          allImages.push({
+            id: `static-${dest.id}`,
+            image: dest.image,
+            category: dest.category,
+            title: dest.title,
+            alt: `${dest.title} Gallery`,
+          });
         }
       }
+
       setGalleryImages(allImages);
       const locations = [...new Set(allImages.map(image => image.category))];
       setAvailableLocations(locations);
