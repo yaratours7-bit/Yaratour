@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { initializeTwilio, makeCall as twilioMakeCall, hangUp } from '../lib/twilio/client';
+import { initializeTwilio, makeCall as twilioMakeCall, hangUp } from '../components/lib/twilio/client';
 import { Device, Call } from '@twilio/voice-sdk';
 import { toast } from 'sonner';
 
