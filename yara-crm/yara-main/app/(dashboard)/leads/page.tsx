@@ -154,15 +154,15 @@ export default function LeadsPage() {
   // Derive distinct sources and stages from the loaded page of leads
   useEffect(() => {
     if (leads && leads.length > 0) {
-      const sources = Array.from(
-        new Set(
+      const sources = Array.from<string>(
+        new Set<string>(
           leads
             .map((l: Lead) => l.source)
             .filter((s: string | null): s is string => Boolean(s))
         )
       );
-      const stages = Array.from(
-        new Set(
+      const stages = Array.from<string>(
+        new Set<string>(
           leads
             .map((l: Lead) => l.stage)
             .filter((s: string | null): s is string => Boolean(s))
