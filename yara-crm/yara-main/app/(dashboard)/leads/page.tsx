@@ -123,10 +123,10 @@ export default function LeadsPage() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['leads', page, sourceFilter, statusFilter],
     queryFn: async () => {
+      // Show ALL leads, not just those assigned to the current user
       let query = supabase
         .from('leads')
-        .select('*', { count: 'exact' })
-        .eq('user_id', user?.id);
+        .select('*', { count: 'exact' });
 
       if (sourceFilter !== 'all') {
         query = query.eq('source', sourceFilter);
