@@ -73,7 +73,7 @@ const Categories = () => {
                       alt={category.alt}
                       width={300}
                       height={200}
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', width: '100%', height: '220px' }}
                     />
                   </div>
                   <h3 className="box-title">
@@ -96,7 +96,7 @@ const Categories = () => {
                       alt={category.alt}
                       width={300}
                       height={200}
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', width: '100%', height: '220px' }}
                     />
                   </div>
                   <h3 className="box-title">

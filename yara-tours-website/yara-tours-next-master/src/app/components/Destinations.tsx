@@ -74,7 +74,7 @@ const Destinations = () => {
                       alt={destination.alt}
                       width={400}
                       height={300}
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', width: '100%', height: '260px' }}
                     />
                     <div className="destination-content">
                       <div className="media-left">
@@ -104,7 +104,7 @@ const Destinations = () => {
                       alt={destination.alt}
                       width={400}
                       height={300}
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', width: '100%', height: '260px' }}
                     />
                     <div className="destination-content">
                       <div className="media-left">
