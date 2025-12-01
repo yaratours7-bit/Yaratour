@@ -55,7 +55,7 @@ const VideoSection = () => {
               </p>
             </div>
             <div className="video-btn">
-              <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" className="play-btn popup-video">
+              <a href="https://www.youtube.com/watch?v=Py4NpNQq9_w" className="play-btn popup-video">
                 <i className="fas fa-play"></i>
               </a>
             </div>
