@@ -61,21 +61,32 @@ const TourBooking: React.FC<TourBookingProps> = ({ tour }) => {
 
       const { error: leadError } = await supabase.from('leads').insert([
         {
+          // Core identity
           name,
           email,
           phone,
+
+          // New schema fields
+          created: new Date().toISOString(),
+          source: 'Website',
+          form: 'Booking form',
+          channel: 'Website',
+          stage: 'New',
+          owner: null,
+          label: tour.title,
+          secondary_phone: null,
+          whatsapp_number: null,
+
+          // Travel details
           destination: tour.location || tour.title,
           travel_dates: bookingDate,
           num_travelers: numberOfPeople,
           budget: numericBudget,
-          source: 'Website',
-          status: 'New',
-          country: '',
         },
       ]);
 
       if (leadError) {
-        console.error('Failed to insert lead into Supabase:', leadError.message);
+        console.error('Failed to insert lead into Supabase:', leadError.message || leadError);
       }
 
       // 2) Best-effort: send booking notification email to admin
