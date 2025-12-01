@@ -37,7 +37,7 @@ const Destinations = () => {
       id: 4,
       title: 'Cape Point',
       subtitle: '1 Tour',
-      image: '/assets/img/destination/cape-point.jpg',
+      image: '/assets/img/destination/cape point.jpg',
       link: '/tour',
       alt: 'The dramatic cliffs and lighthouse at Cape Point.',
     },
