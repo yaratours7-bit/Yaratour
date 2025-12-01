@@ -158,14 +158,14 @@ export default function LeadsPage() {
         new Set(
           leads
             .map((l: Lead) => l.source)
-            .filter((s): s is string => !!s)
+            .filter((s) => Boolean(s))
         )
       );
       const stages = Array.from(
         new Set(
           leads
             .map((l: Lead) => l.stage)
-            .filter((s): s is string => !!s)
+            .filter((s) => Boolean(s))
         )
       );
       setAvailableSources(sources);
