@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import Papa from 'papaparse';
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -13,46 +14,50 @@ export async function POST(request: Request) {
     }
 
     const text = await file.text();
-    const lines = text.split('\n');
-    const headers = lines[0].split(',');
-    
-    // Find the indices of the columns we need
-    const nameIndex = headers.findIndex(h => h.toLowerCase().includes('name'));
-    const emailIndex = headers.findIndex(h => h.toLowerCase().includes('email'));
-    const sourceIndex = headers.findIndex(h => h.toLowerCase().includes('source'));
-    const phoneIndex = headers.findIndex(h => h.toLowerCase().includes('phone') && !h.toLowerCase().includes('secondary') && !h.toLowerCase().includes('whatsapp'));
-    const secondaryPhoneIndex = headers.findIndex(h => h.toLowerCase().includes('secondary phone'));
-    
-    const leads = [];
-    
-    // Process each data row (skip header)
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
-      
-      const columns = line.split(',');
-      
-      const rawSource = columns[sourceIndex]?.trim() || 'CSV Import';
-      const source = rawSource.toLowerCase() === 'paid' ? 'Meta' : rawSource;
-      
-      // Use primary phone, fallback to secondary phone if primary is empty
-      const primaryPhone = columns[phoneIndex]?.trim() || '';
-      const secondaryPhone = columns[secondaryPhoneIndex]?.trim() || '';
-      const phone = primaryPhone || secondaryPhone;
-      
-      const lead = {
-        name: columns[nameIndex]?.trim() || '',
-        email: columns[emailIndex]?.trim() || '',
-        source: source,
-        phone: phone,
+
+    // Use PapaParse to correctly handle quoted fields and commas inside values
+    const parsed = Papa.parse<Record<string, string>>(text, {
+      header: true,
+      skipEmptyLines: true,
+    });
+
+    if (parsed.errors && parsed.errors.length > 0) {
+      console.error('CSV parse errors:', parsed.errors);
+    }
+
+    const rows = parsed.data;
+
+    const leads = [] as { name: string; email: string; source: string; phone: string }[];
+
+    // Determine header keys in a case-insensitive way
+    const normalize = (s: string) => s.toLowerCase();
+
+    for (const row of rows) {
+      // Map columns by looking for keys that include the expected words
+      const entries = Object.entries(row).filter(([key]) => key.trim().length > 0);
+      const getVal = (predicate: (k: string) => boolean) => {
+        const found = entries.find(([key]) => predicate(normalize(key)));
+        return (found?.[1] || '').trim();
       };
-      
-      // Only add leads with at least name and email
-      if (lead.name && lead.email) {
-        leads.push(lead);
+
+      const name = getVal(k => k.includes('name') && !k.includes('email'));
+      const email = getVal(k => k.includes('email'));
+      let source = getVal(k => k.includes('source')) || 'CSV Import';
+
+      // Normalize Meta/Facebook paid source
+      if (source.toLowerCase() === 'paid') {
+        source = 'Meta';
+      }
+
+      const primaryPhone = getVal(k => k.includes('phone') && !k.includes('secondary') && !k.includes('whatsapp'));
+      const secondaryPhone = getVal(k => k.includes('secondary') && k.includes('phone'));
+      const phone = primaryPhone || secondaryPhone;
+
+      if (name && email) {
+        leads.push({ name, email, source, phone });
       }
     }
-    
+
     if (leads.length === 0) {
       return NextResponse.json({ error: 'No valid leads found in CSV' }, { status: 400 });
     }
@@ -97,6 +102,7 @@ export async function POST(request: Request) {
     });
     
   } catch (error) {
+    console.error('Error processing CSV file', error);
     return NextResponse.json(
       { error: 'Failed to process CSV file' },
       { status: 500 }
