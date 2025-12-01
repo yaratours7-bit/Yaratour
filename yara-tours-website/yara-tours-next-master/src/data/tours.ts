@@ -30,7 +30,7 @@ export const tours: Tour[] = [
     ],
     notIncluded: ["Lunch"],
     images: [
-      "/assets/img/tour/tour_2_1.jpg",
+      "/assets/img/destination/hermanus.jpg",
       "/assets/img/tour/tour_2_2.jpg",
       "/assets/img/tour/tour_2_3.jpg",
     ],
@@ -85,7 +85,7 @@ export const tours: Tour[] = [
     ],
     notIncluded: ["Lunch"],
     images: [
-      "/assets/img/tour/tour_8_1.jpg",
+      "/assets/img/destination/constantia.jpg",
       "/assets/img/tour/tour_8_2.jpg",
       "/assets/img/tour/tour_8_3.jpg",
     ],
@@ -107,7 +107,7 @@ export const tours: Tour[] = [
     included: [],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour_3_1.jpg",
+      "/assets/img/destination/garden-route.jpg",
       "/assets/img/tour/tour_3_2.jpg",
       "/assets/img/tour/tour_3_3.jpg",
     ],
@@ -136,7 +136,7 @@ export const tours: Tour[] = [
         "Funicular ride optional at extra cost."
     ],
     images: [
-      "/assets/img/tour/tour_4_1.jpg",
+      "/assets/img/destination/cape point.jpg",
       "/assets/img/tour/tour_4_2.jpg",
       "/assets/img/tour/tour_4_3.jpg",
     ],
@@ -154,7 +154,7 @@ export const tours: Tour[] = [
     included: [],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour_9_1.jpg",
+      "/assets/img/destination/stellenbosch.jpg",
       "/assets/img/tour/tour_9_2.jpg",
       "/assets/img/tour/tour_9_3.jpg",
     ],
@@ -195,7 +195,7 @@ export const tours: Tour[] = [
     included: [],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour_5_1.jpg",
+      "/assets/img/destination/garden-route.jpg",
       "/assets/img/tour/tour_5_2.jpg",
       "/assets/img/tour/tour_5_3.jpg",
     ],
@@ -218,7 +218,7 @@ export const tours: Tour[] = [
     ],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour_6_1.jpg",
+      "/assets/img/destination/wine estate.jpg",
       "/assets/img/tour/tour_6_2.jpg",
       "/assets/img/tour/tour_6_3.jpg",
     ],
