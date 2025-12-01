@@ -12,7 +12,7 @@ interface TourBookingProps {
 const TourBooking: React.FC<TourBookingProps> = ({ tour }) => {
   const { addToast } = useToast();
   const searchParams = useSearchParams();
-  const [numberOfPeople, setNumberOfPeople] = useState(1);
+  const [numberOfPeople, setNumberOfPeople] = useState<string>('1');
   const [totalPrice, setTotalPrice] = useState(0);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -28,21 +28,27 @@ const TourBooking: React.FC<TourBookingProps> = ({ tour }) => {
       setBookingDate(date);
     }
     if (people) {
-      setNumberOfPeople(parseInt(people, 10));
+      setNumberOfPeople(people);
     }
   }, [searchParams]);
 
   useEffect(() => {
     const price = parseFloat(tour.price.replace('R', ''));
-    setTotalPrice(price * numberOfPeople);
+    const qty = Number(numberOfPeople) || 0;
+    setTotalPrice(price * qty);
   }, [numberOfPeople, tour.price]);
 
   const handleNumberOfPeopleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    if (value > 0) {
-      setNumberOfPeople(value);
-    } else {
-      setNumberOfPeople(1);
+    const value = e.target.value;
+    // Allow clearing the field; actual validation happens on submit
+    if (value === '') {
+      setNumberOfPeople('');
+      return;
+    }
+    // Only accept positive integers
+    const parsed = parseInt(value, 10);
+    if (!isNaN(parsed) && parsed > 0) {
+      setNumberOfPeople(String(parsed));
     }
   };
 
@@ -80,7 +86,7 @@ const TourBooking: React.FC<TourBookingProps> = ({ tour }) => {
           // Travel details
           destination: tour.location || tour.title,
           travel_dates: bookingDate,
-          num_travelers: numberOfPeople,
+          num_travelers: Number(numberOfPeople) || 1,
           budget: numericBudget,
         },
       ]);
@@ -101,7 +107,7 @@ const TourBooking: React.FC<TourBookingProps> = ({ tour }) => {
             email,
             phone,
             bookingDate,
-            numberOfPeople,
+          numberOfPeople: Number(numberOfPeople) || 1,
             totalPrice,
             tourTitle: tour.title,
           }),
@@ -125,7 +131,7 @@ const TourBooking: React.FC<TourBookingProps> = ({ tour }) => {
     setEmail('');
     setPhone('');
     setBookingDate('');
-    setNumberOfPeople(1);
+    setNumberOfPeople('1');
 
     setIsLoading(false);
   };
