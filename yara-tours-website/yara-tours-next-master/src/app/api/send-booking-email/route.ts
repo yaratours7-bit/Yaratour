@@ -73,22 +73,33 @@ export async function POST(request: Request) {
         .from('leads')
         .insert([
           {
+            // Core identity
             name,
             email,
             phone,
+
+            // New schema fields
+            created: new Date().toISOString(),
+            source: 'Website',
+            form: 'Booking form',
+            channel: 'Website',
+            stage: 'New',
+            owner: null,
+            label: tourTitle ?? '',
+            secondary_phone: null,
+            whatsapp_number: null,
+
+            // Travel details
             destination: tourTitle ?? '',
             travel_dates: bookingDate ?? '',
             num_travelers: Number(numberOfPeople) || 0,
             budget: Number(totalPrice) || 0,
-            source: 'Website',
-            status: 'New',
-            country: '',
           },
         ])
         .select('id');
 
       if (leadError) {
-        console.error('Failed to create CRM lead from booking', leadError);
+        console.error('Failed to create CRM lead from booking', leadError.message || leadError);
       } else if (leadRows && leadRows[0]?.id) {
         // Also create a row in a dedicated bookings table, linked to the lead.
         const { error: bookingError } = await supabase.from('bookings').insert([
@@ -104,7 +115,7 @@ export async function POST(request: Request) {
         ]);
 
         if (bookingError) {
-          console.error('Failed to create booking record', bookingError);
+          console.error('Failed to create booking record', bookingError.message || bookingError);
         }
       }
     } catch (leadInsertError) {

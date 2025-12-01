@@ -58,8 +58,15 @@ interface Lead {
   num_travelers: number;
   budget: number;
   source: string;
-  status: string;
-  country: string;
+  // New schema fields
+  created: string | null;
+  form: string | null;
+  channel: string | null;
+  stage: string | null;
+  owner: string | null;
+  label: string | null;
+  secondary_phone: string | null;
+  whatsapp_number: string | null;
 }
 
 interface Note {
@@ -100,7 +107,6 @@ export default function LeadsPage() {
   const [budget, setBudget] = useState('');
   const [source, setSource] = useState('');
   const [status, setStatus] = useState('New');
-  const [country, setCountry] = useState('');
   const [isCreateSheetOpen, setCreateSheetOpen] = useState(false);
 
   // State for edit sheet
@@ -132,7 +138,7 @@ export default function LeadsPage() {
         query = query.eq('source', sourceFilter);
       }
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+        query = query.eq('stage', statusFilter);
       }
 
       const { data, count } = await query.range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
@@ -318,7 +324,21 @@ export default function LeadsPage() {
   });
 
   const handleCreateLead = () => {
-    createLeadMutation.mutate({ name, email, phone, destination, travel_dates: travelDates, num_travelers: Number(numTravelers), budget: Number(budget), source, status, country });
+    createLeadMutation.mutate({
+      name,
+      email,
+      phone,
+      destination,
+      travel_dates: travelDates,
+      num_travelers: Number(numTravelers),
+      budget: Number(budget),
+      source,
+      // Map UI "status" to new "stage" column
+      stage: status,
+      created: new Date().toISOString(),
+      form: 'CRM',
+      channel: 'CRM',
+    });
   };
 
   const handleUpdateLead = () => {
@@ -490,10 +510,6 @@ export default function LeadsPage() {
                   <Input id="budget" type="number" value={budget} onChange={(e) => setBudget(e.target.value)} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="country" className="text-right">Country</Label>
-                  <Input id="country" value={country} onChange={(e) => setCountry(e.target.value)} className="col-span-3" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="source" className="text-right">Source</Label>
                   <Select onValueChange={setSource}>
                     <SelectTrigger className="col-span-3"><SelectValue placeholder="Select a source" /></SelectTrigger>
@@ -593,10 +609,6 @@ export default function LeadsPage() {
                     <Input id="budget-edit" type="number" value={editingLead?.budget || ''} onChange={(e) => setEditingLead(prev => prev ? { ...prev, budget: Number(e.target.value) } : null)} className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="country-edit" className="text-right">Country</Label>
-                    <Input id="country-edit" value={editingLead?.country || ''} onChange={(e) => setEditingLead(prev => prev ? { ...prev, country: e.target.value } : null)} className="col-span-3" />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="source-edit" className="text-right">Source</Label>
                     <Select value={editingLead?.source} onValueChange={(value) => setEditingLead(prev => prev ? { ...prev, source: value } : null)}>
                       <SelectTrigger className="col-span-3"><SelectValue placeholder="Select a source" /></SelectTrigger>
@@ -609,7 +621,7 @@ export default function LeadsPage() {
                     </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="status-edit" className="text-right">Status</Label>
+                    <Label htmlFor="status-edit" className="text-right">Stage</Label>
                     <Select value={editingLead?.status} onValueChange={(value) => setEditingLead(prev => prev ? { ...prev, status: value } : null)}>
                       <SelectTrigger className="col-span-3"><SelectValue /></SelectTrigger>
                       <SelectContent>
@@ -723,7 +735,7 @@ export default function LeadsPage() {
                     <TableHead>Email</TableHead>
                     <TableHead>Phone</TableHead>
                     <TableHead>Destination</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead>Stage</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -740,7 +752,7 @@ export default function LeadsPage() {
                       <TableCell>{lead.email}</TableCell>
                       <TableCell>{lead.phone}</TableCell>
                       <TableCell>{lead.destination}</TableCell>
-                      <TableCell>{lead.status}</TableCell>
+                      <TableCell>{lead.stage}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" onClick={() => openEditSheet(lead)}>View</Button>
