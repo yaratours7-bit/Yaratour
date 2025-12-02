@@ -31,7 +31,7 @@ const Tours = () => {
         
         <div className="slider-area tour-slider">
           <div 
-            className="swiper th-slider has-shadow slider-drag-wrap" 
+            className="swiper th-slider has-shadow" 
             data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"1"},"768":{"slidesPerView":"2"},"992":{"slidesPerView":"2"},"1200":{"slidesPerView":"3"},"1300":{"slidesPerView":"4"}}}'
           >
             <div className="swiper-wrapper">

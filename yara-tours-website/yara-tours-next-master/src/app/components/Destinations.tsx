@@ -60,7 +60,7 @@ const Destinations = () => {
         </div>
 
         <div
-          className="swiper th-slider destination-slider slider-drag-wrap"
+          className="swiper th-slider destination-slider"
           id="aboutSlider1"
           data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"2"},"992":{"slidesPerView":"3"},"1200":{"slidesPerView":"3"}},"effect":"coverflow","coverflowEffect":{"rotate":"0","stretch":"95","depth":"212","modifier":"1"},"centeredSlides":"true"}'
         >

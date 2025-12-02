@@ -82,12 +82,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="no-js">
       <body className={`${inter.variable} ${manrope.variable}`}>
-        <div className="cursor-follower"></div>
-        <div className="slider-drag-cursor">
-          <i className="fas fa-angle-left me-2"></i> DRAG{" "}
-          <i className="fas fa-angle-right ms-2"></i>
-        </div>
-        
         <ToastProvider>
           {children}
         </ToastProvider>
