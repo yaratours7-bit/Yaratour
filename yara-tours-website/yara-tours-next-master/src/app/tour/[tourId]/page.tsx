@@ -40,31 +40,21 @@ export default function TourDetailsPage({ params }: { params: { tourId: string }
           <div className="row">
             <div className="col-xxl-8 col-lg-7">
               <div className="tour-page-single">
-                <div className="slider-area tour-slider1">
-                  <div className="swiper th-slider mb-4" id="tourSlider4" data-slider-options='{"effect":"fade","loop":true,"thumbs":{"swiper":".tour-thumb-slider"},"autoplayDisableOnInteraction":"true"}'>
-                    <div className="swiper-wrapper">
-                      {tour.images.map((image, index) => (
-                        <div className="swiper-slide" key={index}>
-                          <div className="tour-slider-img">
-                            <Image src={image} alt="img" width={800} height={450} style={{width: '100%', height: '450px', objectFit: 'cover'}} />
-                          </div>
-                        </div>
-                      ))}
+                {/* Static gallery instead of auto-sliding carousel */}
+                <div className="row g-3 mb-4">
+                  {tour.images.map((image, index) => (
+                    <div key={index} className={index === 0 ? "col-12" : "col-sm-6 col-md-4"}>
+                      <div className="tour-slider-img">
+                        <Image
+                          src={image}
+                          alt={tour.title}
+                          width={800}
+                          height={450}
+                          style={{ width: '100%', height: index === 0 ? '450px' : '220px', objectFit: 'cover' }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="swiper th-slider tour-thumb-slider" data-slider-options='{"effect":"slide","loop":true,"breakpoints":{"0":{"slidesPerView":2},"576":{"slidesPerView":"2"},"768":{"slidesPerView":"3"},"992":{"slidesPerView":"3"},"1200":{"slidesPerView":"3"}},"autoplayDisableOnInteraction":"true"}'>
-                    <div className="swiper-wrapper">
-                      {tour.images.map((image, index) => (
-                        <div className="swiper-slide" key={index}>
-                          <div className="tour-slider-img">
-                            <Image src={image} alt="Image" width={300} height={150} style={{width: '100%', height: '150px', objectFit: 'cover'}} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <button data-slider-prev="#tourSlider4" className="slider-arrow style3 slider-prev"><Image src="/assets/img/icon/hero-arrow-left.svg" alt="" width={24} height={24} /></button>
-                  <button data-slider-next="#tourSlider4" className="slider-arrow style3 slider-next"><Image src="/assets/img/icon/hero-arrow-right.svg" alt="" width={24} height={24} /></button>
+                  ))}
                 </div>
                 <div className="page-content">
                   <h2 className="box-title mt-30">{tour.title}</h2>
