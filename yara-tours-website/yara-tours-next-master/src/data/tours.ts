@@ -242,7 +242,7 @@ export const tours: Tour[] = [
     ],
     notIncluded: [],
     images: [
-      "/assets/img/tour/tour_7_1.jpg",
+      "/assets/img/destination/interactive safari.jpg",
       "/assets/img/tour/tour_7_2.jpg",
       "/assets/img/tour/tour_7_3.jpg",
     ],
