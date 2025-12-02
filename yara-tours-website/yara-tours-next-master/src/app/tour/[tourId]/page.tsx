@@ -40,36 +40,18 @@ export default function TourDetailsPage({ params }: { params: { tourId: string }
           <div className="row">
             <div className="col-xxl-8 col-lg-7">
               <div className="tour-page-single">
-                {/* Show a clean, static hero image or simple grid for this tour */}
-                {tour.images.length <= 1 ? (
-                  <div className="mb-4">
-                    <div className="tour-slider-img">
-                      <Image
-                        src={tour.images[0]}
-                        alt={tour.title}
-                        width={800}
-                        height={450}
-                        style={{ width: '100%', height: '450px', objectFit: 'cover' }}
-                      />
-                    </div>
+                {/* Show only a single clean hero image for this tour */}
+                <div className="mb-4">
+                  <div className="tour-slider-img">
+                    <Image
+                      src={tour.images[0]}
+                      alt={tour.title}
+                      width={800}
+                      height={450}
+                      style={{ width: '100%', height: '450px', objectFit: 'cover' }}
+                    />
                   </div>
-                ) : (
-                  <div className="row g-3 mb-4">
-                    {tour.images.map((image, index) => (
-                      <div key={index} className={index === 0 ? "col-12" : "col-sm-6 col-md-4"}>
-                        <div className="tour-slider-img">
-                          <Image
-                            src={image}
-                            alt={tour.title}
-                            width={800}
-                            height={450}
-                            style={{ width: '100%', height: index === 0 ? '450px' : '220px', objectFit: 'cover' }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                </div>
                 <div className="page-content">
                   <h2 className="box-title mt-30">{tour.title}</h2>
                   <h4 className="tour-price"><span className="currency">{tour.price}</span>/Person</h4>
