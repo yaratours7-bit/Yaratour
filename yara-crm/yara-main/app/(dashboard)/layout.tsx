@@ -1,5 +1,5 @@
 'use client';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Sidebar from '../components/Sidebar';
 import CallToast from '../components/CallToast';
 import { useCall } from '../hooks/useCall';
@@ -13,6 +13,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const { initTwilio } = useCall();
   const { user, isLoading } = useUser();
 
@@ -22,12 +23,18 @@ export default function DashboardLayout({
     }
   }, [user, initTwilio]);
 
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/auth');
+    }
+  }, [isLoading, user, router]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (!user) {
-    return redirect('/auth');
+    return null;
   }
 
   return (

@@ -19,18 +19,21 @@ export async function GET(request: Request) {
     const now = new Date();
     
     switch (period) {
-      case 'today':
+      case 'today': {
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         dateFilter = `started_at >= '${today.toISOString()}'`;
         break;
-      case 'week':
+      }
+      case 'week': {
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         dateFilter = `started_at >= '${weekAgo.toISOString()}'`;
         break;
-      case 'month':
+      }
+      case 'month': {
         const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
         dateFilter = `started_at >= '${monthAgo.toISOString()}'`;
         break;
+      }
     }
 
     // Get total calls
