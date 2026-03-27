@@ -75,21 +75,12 @@ export default function ContactsPage() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['contacts', page],
     queryFn: async () => {
-      const { data, count } = await supabase
+      const { data, count, error } = await supabase
         .from('contacts')
-        .select(`
-          id,
-          name,
-          email,
-          phone,
-          account_id,
-          accounts (
-            id,
-            name
-          )
-        `, { count: 'exact' })
+        .select('*', { count: 'exact' })
         .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
-      return { contacts: data as unknown as Contact[], count };
+      if (error) throw new Error(error.message);
+      return { contacts: (data || []) as unknown as Contact[], count };
     },
   });
 
@@ -162,7 +153,12 @@ export default function ContactsPage() {
   });
 
   const handleCreateContact = () => {
-    createContactMutation.mutate({ name, email, phone, account_id: accountId });
+    createContactMutation.mutate({
+      name,
+      email,
+      phone,
+      account_id: accountId || null,
+    });
   };
 
   const handleUpdateContact = () => {

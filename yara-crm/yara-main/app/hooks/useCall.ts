@@ -255,13 +255,23 @@ export const useCall = create<CallState>((set, get) => ({
       });
 
       device.on('offline', () => {
-        console.log('Device offline');
-        set({ status: 'Offline' });
+        console.log('Device offline - will auto-reconnect in 5s');
+        set({ status: 'Reconnecting...' });
+        setTimeout(() => get().initTwilio(), 5000);
       });
 
       device.on('unregistered', () => {
-        console.log('Device unregistered');
-        set({ status: 'Disconnected' });
+        console.log('Device unregistered - will auto-reconnect in 5s');
+        set({ status: 'Reconnecting...' });
+        setTimeout(() => get().initTwilio(), 5000);
+      });
+
+      device.on('tokenWillExpire', () => {
+        console.log('Token expiring soon - refreshing...');
+        fetch('/api/token')
+          .then(r => r.json())
+          .then(data => { if (data.token) device.updateToken(data.token); })
+          .catch(console.error);
       });
 
       device.on('incoming', (call) => {

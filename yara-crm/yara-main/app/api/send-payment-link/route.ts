@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     /*
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'yara@yaratoursafrica.info',
       to: email,
       subject: 'Your Payment Link',
       html: `<p>Click <a href="${paymentLink}">here</a> to make your payment.</p>`,

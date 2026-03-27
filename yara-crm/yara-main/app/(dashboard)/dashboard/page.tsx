@@ -71,26 +71,36 @@ export default function DashboardPage() {
       const { data } = await supabase
         .from('leads')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('created', { ascending: false, nullsFirst: false })
         .limit(5);
       return (data || []) as RecentLead[];
     },
   });
 
-  const chartData = [
-    { name: 'Jan', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Feb', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Mar', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Apr', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'May', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Jun', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Jul', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Aug', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Sep', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Oct', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Nov', total: Math.floor(Math.random() * 5000) + 1000 },
-    { name: 'Dec', total: Math.floor(Math.random() * 5000) + 1000 },
-  ];
+  const { data: chartData } = useQuery({
+    queryKey: ['monthly-revenue'],
+    queryFn: async () => {
+      const { data: payments } = await supabase
+        .from('payments')
+        .select('amount, date')
+        .eq('status', 'received');
+
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const year = new Date().getFullYear();
+      const totals: Record<string, number> = {};
+      months.forEach(m => { totals[m] = 0; });
+
+      (payments || []).forEach((p: { amount: number; date: string }) => {
+        const d = new Date(p.date);
+        if (d.getFullYear() === year) {
+          const month = months[d.getMonth()];
+          totals[month] = (totals[month] || 0) + (p.amount || 0);
+        }
+      });
+
+      return months.map(name => ({ name, total: totals[name] }));
+    },
+  });
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">

@@ -68,10 +68,11 @@ export default function CalendarPage() {
   const { data: events, isLoading, isError } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
-      const { data } = await supabase.from('events').select('*, leads (id, name, phone, country), accounts (id, name, phone, country), profiles (email)');
+      const { data, error } = await supabase.from('events').select('*');
+      if (error) throw new Error(error.message);
       return (data || []).map((event: Event) => ({
         ...event,
-        title: event.title || event.leads?.name || event.accounts?.name,
+        title: event.title,
         start: new Date(event.start_time),
         end: new Date(event.end_time),
       }));

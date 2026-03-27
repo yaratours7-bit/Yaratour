@@ -19,13 +19,9 @@ export async function GET(request: Request) {
     // Fetch calls for the current user
     const { data: calls, error } = await supabase
       .from('calls')
-      .select(`
-        *,
-        leads(name, email),
-        contacts(name, email)
-      `)
+      .select('*')
       .eq('user_id', user.id)
-      .order('started_at', { ascending: false })
+      .order('started_at', { ascending: false, nullsFirst: false })
       .range(offset, offset + limit - 1);
 
     if (error) {
@@ -71,12 +67,13 @@ export async function POST(request: Request) {
         phone_number,
         direction,
         status,
-        duration,
-        call_sid,
-        notes,
-        lead_id,
-        contact_id,
-        ended_at: status === 'completed' ? new Date().toISOString() : null
+        duration: duration ?? 0,
+        call_sid: call_sid ?? null,
+        notes: notes ?? null,
+        lead_id: lead_id ?? null,
+        contact_id: contact_id ?? null,
+        started_at: new Date().toISOString(),
+        ended_at: status === 'completed' ? new Date().toISOString() : null,
       })
       .select()
       .single();

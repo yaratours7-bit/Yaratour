@@ -67,7 +67,7 @@ export async function GET() {
       TWILIO_ACCOUNT_SID,
       TWILIO_API_KEY,
       TWILIO_API_SECRET,
-      { identity: user.id }
+      { identity: user.id, ttl: 86400 } // 24 hours
     );
 
     token.addGrant(voiceGrant);

@@ -134,7 +134,8 @@ export default function LeadsPage() {
       // Show ALL leads, not just those assigned to the current user
       let query = supabase
         .from('leads')
-        .select('*', { count: 'exact' });
+        .select('*', { count: 'exact' })
+        .order('created', { ascending: false, nullsFirst: false });
 
       if (sourceFilter !== 'all') {
         query = query.eq('source', sourceFilter);
