@@ -1,5 +1,0 @@
-{
-  "root": "yara-crm/yara-main",
-  "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install --no-frozen-lockfile"
-}
