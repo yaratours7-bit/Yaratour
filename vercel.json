@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd yara-crm/yara-main && pnpm install --no-frozen-lockfile && pnpm run build",
-  "installCommand": "pnpm install --no-frozen-lockfile",
-  "outputDirectory": "yara-crm/yara-main/.next"
+  "root": "yara-crm/yara-main",
+  "buildCommand": "pnpm run build",
+  "installCommand": "pnpm install --no-frozen-lockfile"
 }
