@@ -1,0 +1,81 @@
+# Yara Tours and Travel CRM - Cline Development Rules
+
+This document outlines the plan, architecture, and rules for building the Yara Tours and Travel CRM.
+
+## 1. Core Technologies
+
+- **Framework:** Next.js (App Router) with TypeScript
+- **UI:** shadcn/ui, Tailwind CSS
+- **Database & Storage:** Supabase (PostgreSQL)
+- **Authentication:** Supabase Auth
+
+## 2. Project Structure
+
+We will use a standard Next.js project structure.
+
+```
+/
+|-- app/
+|   |-- api/       (API Routes for server-side logic)
+|   |-- (pages)/   (Application pages)
+|-- components/
+|   |-- ui/        (shadcn/ui components)
+|-- lib/
+|   |-- supabase/  (Supabase client setup)
+|   |-- utils.ts
+|-- .gitignore
+|-- package.json
+|-- tsconfig.json
+```
+
+## 3. Feature Implementation Plan
+
+Development will proceed in the following order:
+
+1.  **Phase 1: Project Setup & Core Infrastructure**
+    - [x] Create `cline.rules` file.
+    - [x] Initialize Next.js project.
+    - [x] Configure Supabase for database, auth, and storage.
+    - [x] Implement basic user authentication (Sign Up, Sign In, Sign Out).
+    - [x] Refactor to a Next.js-only architecture.
+    - [x] Remove Drizzle and simplify to a Supabase-only data layer.
+
+2.  **Phase 2: Admin & Agent Management**
+    - [x] Create an API Route for creating new users.
+    - [x] Create an admin interface to add new agents.
+    - [x] Implement role assignment for agents (e.g., 'admin', 'agent', 'support').
+    - [x] Secure API routes and pages based on user roles.
+
+3.  **Phase 3: Lead & Contact Management**
+    - [ ] Create a "Leads Pool" page where all unassigned leads are visible.
+    - [ ] Implement functionality for an admin to manually assign a lead to an agent.
+    - [ ] Create a "My Leads" page for agents to view their assigned leads.
+    - [ ] Develop the interface to view and update lead/contact details.
+
+4.  **Phase 4: Integrations**
+    - [ ] **PayFast:** Create a module to generate and send payment links to clients.
+    - [ ] **Twilio:** Integrate Twilio Voice SDK for making outbound calls from the CRM. Log call details.
+    - [ ] **Lead Sources (API Endpoints):** Create secure API endpoints to receive new leads from Facebook, Instagram, Google, and the website.
+
+5.  **Phase 5: AI & Automation**
+    - [ ] **AI Lead Assignment:**
+        - Create a scheduled job (cron) that runs daily at 6 AM.
+        - The job will use the Gemini API to analyze new leads from the pool and assign them to the most suitable agent based on predefined criteria (e.g., round-robin, agent workload, lead source).
+    - [ ] **AI Customer Support Chatbot:**
+        - Develop a website chatbot widget.
+        - Integrate the Gemini 2.5 Pro API to handle customer support queries, with access to relevant (and anonymized) data for context.
+
+6.  **Phase 6: Core CRM Features**
+    - [ ] **Calendar:** Implement a calendar view for agents to see their scheduled calls, follow-ups, and tasks.
+    - [ ] **Calls:** Create a log for all inbound and outbound calls made via Twilio.
+    - [ ] **Settings:** Develop a settings page for agents and admins to manage their profiles and preferences.
+
+## 4. Key Architectural Decisions
+
+- **API Communication:** Server-side logic will be handled by Next.js API Routes.
+- **State Management:** We will start with React's built-in state management (useState, useContext) and consider a more robust solution like Zustand or Jotai if the application complexity grows.
+- **Styling:** `shadcn/ui` will be used for pre-built components, which can be customized with Tailwind CSS.
+- **Data Layer:** We will use the Supabase client directly for all database operations.
+
+---
+This plan provides a clear roadmap. We will proceed step-by-step, ensuring each phase is complete and tested before moving to the next.
